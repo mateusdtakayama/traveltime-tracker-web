@@ -5,29 +5,13 @@ import { ModeToggle } from "@/components/system/theme-drop-down-menu"
 import { HDRForm } from "@/components/system/hdv-form"
 
 export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
+  title: "HDV Calculator",
+  description: "Calcuie o HDV com facilidade!",
 }
 
 export default function AuthenticationPage() {
   return (
     <>
-      <div className="md:hidden">
-        <Image
-          src="/examples/authentication-light.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/authentication-dark.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="hidden dark:block"
-        />
-      </div>
       <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <ModeToggle />
         <div className="relative hidden flex-col bg-muted p-10 text-white dark:border-r lg:flex h-screen">
@@ -45,7 +29,9 @@ export default function AuthenticationPage() {
             >
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
-            Calculadora de HDV
+          </div>
+          <div className="relative z-20 mt-auto flex items-center justify-center w-full">
+            <Image src="/logo.svg" alt="HDR Logo" width={500} height={256} priority={true} />
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
