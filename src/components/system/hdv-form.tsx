@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { cn } from '@/lib/utils'
+import dayjs from 'dayjs'
 import {
   Dialog,
   DialogContent,
@@ -33,9 +34,9 @@ const HDRFormSchema = z
   })
   .refine(
     (data) => {
-      const start = new Date(`1970-01-01T${data.startTime}:00`)
-      const end = new Date(`1970-01-01T${data.endTime}:00`)
-      return end > start
+      const start = dayjs(`2024-01-01 ${data.startTime}`)
+      const end = dayjs(`2024-01-01 ${data.endTime}`)
+      return end.isAfter(start)
     },
     {
       message: 'O horário final deve ser maior que o horário inicial',
@@ -46,6 +47,7 @@ const HDRFormSchema = z
 type HDRFormInputs = z.infer<typeof HDRFormSchema>
 
 export function HDRForm() {
+  dayjs().format()
   const { toast } = useToast()
 
   const [open, setOpen] = useState(false)
@@ -63,9 +65,9 @@ export function HDRForm() {
   const onSubmit = (data: HDRFormInputs) => {
     const { startTime, endTime, hourValue } = data
 
-    const start = new Date(`1970-01-01T${startTime}:00`)
-    const end = new Date(`1970-01-01T${endTime}:00`)
-    const hours = (end.getTime() - start.getTime()) / (1000 * 60 * 60)
+    const start = dayjs(`2024-01-01 ${startTime}`)
+    const end = dayjs(`2024-01-01 ${endTime}`)
+    const hours = end.diff(start, 'hour', true)
     const total = hours * parseFloat(hourValue)
 
     const formattedTotal = new Intl.NumberFormat('pt-BR', {
@@ -73,12 +75,9 @@ export function HDRForm() {
       currency: 'BRL',
     }).format(total)
 
-    const formattedHours =
-      Math.floor(hours).toString().padStart(2, '0') +
-      ':' +
-      Math.floor((hours % 1) * 60)
-        .toString()
-        .padStart(2, '0')
+    const formattedHours = `${end.diff(start, 'hour')}:${
+      end.diff(start, 'minute') % 60
+    } `
 
     setTotalHours(formattedHours)
     setTotalValue(formattedTotal)
