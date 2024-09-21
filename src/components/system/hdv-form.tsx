@@ -75,11 +75,19 @@ export function HDRForm() {
       currency: 'BRL',
     }).format(total)
 
-    const formattedHours = `${end.diff(start, 'hour')}:${
-      end.diff(start, 'minute') % 60
-    } `
+    const formattedHours =
+      end.diff(start, 'hour') > 10
+        ? `${end.diff(start, 'hour')}`
+        : `0${end.diff(start, 'hour')}`
 
-    setTotalHours(formattedHours)
+    const formatttedMinutes =
+      end.diff(start, 'minute') % 60 > 10
+        ? `${end.diff(start, 'minute') % 60}`
+        : `0${end.diff(start, 'minute') % 60}`
+
+    const formattedTime = `${formattedHours}:${formatttedMinutes}`
+
+    setTotalHours(formattedTime)
     setTotalValue(formattedTotal)
     setOpen(true)
   }
