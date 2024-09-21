@@ -47,7 +47,6 @@ const HDRFormSchema = z
 type HDRFormInputs = z.infer<typeof HDRFormSchema>
 
 export function HDRForm() {
-  dayjs().format()
   const { toast } = useToast()
 
   const [open, setOpen] = useState(false)
@@ -76,12 +75,12 @@ export function HDRForm() {
     }).format(total)
 
     const formattedHours =
-      end.diff(start, 'hour') > 10
+      end.diff(start, 'hour') >= 10
         ? `${end.diff(start, 'hour')}`
         : `0${end.diff(start, 'hour')}`
 
     const formatttedMinutes =
-      end.diff(start, 'minute') % 60 > 10
+      end.diff(start, 'minute') % 60 >= 10
         ? `${end.diff(start, 'minute') % 60}`
         : `0${end.diff(start, 'minute') % 60}`
 
