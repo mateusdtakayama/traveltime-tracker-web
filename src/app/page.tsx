@@ -1,12 +1,12 @@
-import { Metadata } from "next"
-import Image from "next/image"
+import { Metadata } from 'next'
+import Image from 'next/image'
 
-import { ModeToggle } from "@/components/system/theme-drop-down-menu"
-import { HDRForm } from "@/components/system/hdv-form"
+import { ModeToggle } from '@/components/system/theme-drop-down-menu'
+import { HDRForm } from '@/components/system/hdv-form'
 
 export const metadata: Metadata = {
-  title: "HDV Calculator",
-  description: "Calcuie o HDV com facilidade!",
+  title: 'HDV Calculator',
+  description: 'Calcuie o HDV com facilidade!',
 }
 
 export default function AuthenticationPage() {
@@ -31,13 +31,19 @@ export default function AuthenticationPage() {
             </svg>
           </div>
           <div className="relative z-20 mt-auto flex items-center justify-center w-full">
-            <Image src="/logo.svg" alt="HDR Logo" width={500} height={256} priority={true} />
+            <Image
+              src="/logo.svg"
+              alt="HDR Logo"
+              width={500}
+              height={256}
+              priority={true}
+            />
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;Não preciso de frase motivacional, preciso de café.&rdquo;
-
+                &ldquo;Não preciso de frase motivacional, preciso de
+                café.&rdquo;
               </p>
               <footer className="text-sm">Autor Desconhecido</footer>
             </blockquote>
