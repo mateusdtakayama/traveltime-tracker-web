@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { cn } from '@/lib/utils'
+import dayjs from 'dayjs'
 import {
   Dialog,
   DialogContent,
@@ -33,9 +34,9 @@ const HDRFormSchema = z
   })
   .refine(
     (data) => {
-      const start = new Date(`1970-01-01T${data.startTime}:00`)
-      const end = new Date(`1970-01-01T${data.endTime}:00`)
-      return end > start
+      const start = dayjs(`2024-01-01 ${data.startTime}`)
+      const end = dayjs(`2024-01-01 ${data.endTime}`)
+      return end.isAfter(start)
     },
     {
       message: 'O horário final deve ser maior que o horário inicial',
@@ -63,9 +64,9 @@ export function HDRForm() {
   const onSubmit = (data: HDRFormInputs) => {
     const { startTime, endTime, hourValue } = data
 
-    const start = new Date(`1970-01-01T${startTime}:00`)
-    const end = new Date(`1970-01-01T${endTime}:00`)
-    const hours = (end.getTime() - start.getTime()) / (1000 * 60 * 60)
+    const start = dayjs(`2024-01-01 ${startTime}`)
+    const end = dayjs(`2024-01-01 ${endTime}`)
+    const hours = end.diff(start, 'hour', true)
     const total = hours * parseFloat(hourValue)
 
     const formattedTotal = new Intl.NumberFormat('pt-BR', {
@@ -74,13 +75,18 @@ export function HDRForm() {
     }).format(total)
 
     const formattedHours =
-      Math.floor(hours).toString().padStart(2, '0') +
-      ':' +
-      Math.floor((hours % 1) * 60)
-        .toString()
-        .padStart(2, '0')
+      end.diff(start, 'hour') >= 10
+        ? `${end.diff(start, 'hour')}`
+        : `0${end.diff(start, 'hour')}`
 
-    setTotalHours(formattedHours)
+    const formatttedMinutes =
+      end.diff(start, 'minute') % 60 >= 10
+        ? `${end.diff(start, 'minute') % 60}`
+        : `0${end.diff(start, 'minute') % 60}`
+
+    const formattedTime = `${formattedHours}:${formatttedMinutes}`
+
+    setTotalHours(formattedTime)
     setTotalValue(formattedTotal)
     setOpen(true)
   }
