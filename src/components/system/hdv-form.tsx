@@ -19,6 +19,7 @@ import { Button } from '../ui/button'
 import { z } from 'zod'
 import { Copy } from 'lucide-react'
 import { useToast } from '../ui/use-toast'
+import { Card, CardContent } from '@/components/ui/card'
 
 const HDRFormSchema = z
   .object({
@@ -92,81 +93,90 @@ export function HDRForm() {
   }
 
   return (
-    <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
-      <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-        Calculadora Estática
-      </h2>
-      <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-        Preencha os valores para calcular o valor da viagem
-      </p>
-
-      <form className="my-8" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-          <LabelInputContainer>
-            <Label htmlFor="startTime">Horário inicial</Label>
-            <Input
-              id="startTime"
-              {...register('startTime')}
-              placeholder="08:00"
-              type="time"
-            />
-            {errors.startTime && (
-              <p className="text-red-500 text-sm">{errors.startTime.message}</p>
-            )}
-          </LabelInputContainer>
-          <LabelInputContainer>
-            <Label htmlFor="endTime">Horário final</Label>
-            <Input
-              id="endTime"
-              {...register('endTime')}
-              placeholder="17:00"
-              type="time"
-            />
-            {errors.endTime && (
-              <p className="text-red-500 text-sm">{errors.endTime.message}</p>
-            )}
-          </LabelInputContainer>
+    <Card className="rounded-lg border-none mt-6">
+      <CardContent className="p-6">
+        <div className="flex justify-center items-center min-h-[calc(100vh-56px-64px-20px-24px-56px-48px)]">
+          <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+            <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
+              Calculadora Estática
+            </h2>
+            <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+              Preencha os valores para calcular o valor da viagem
+            </p>
+            <form className="my-8" onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+                <LabelInputContainer>
+                  <Label htmlFor="startTime">Horário inicial</Label>
+                  <Input
+                    id="startTime"
+                    {...register('startTime')}
+                    placeholder="08:00"
+                    type="time"
+                  />
+                  {errors.startTime && (
+                    <p className="text-red-500 text-sm">
+                      {errors.startTime.message}
+                    </p>
+                  )}
+                </LabelInputContainer>
+                <LabelInputContainer>
+                  <Label htmlFor="endTime">Horário final</Label>
+                  <Input
+                    id="endTime"
+                    {...register('endTime')}
+                    placeholder="17:00"
+                    type="time"
+                  />
+                  {errors.endTime && (
+                    <p className="text-red-500 text-sm">
+                      {errors.endTime.message}
+                    </p>
+                  )}
+                </LabelInputContainer>
+              </div>
+              <LabelInputContainer className="mb-4">
+                <Label htmlFor="hourValue">Valor da hora</Label>
+                <Input
+                  id="hourValue"
+                  {...register('hourValue')}
+                  placeholder="30,00"
+                  type="number"
+                  step="0.01"
+                />
+                {errors.hourValue && (
+                  <p className="text-red-500 text-sm">
+                    {errors.hourValue.message}
+                  </p>
+                )}
+              </LabelInputContainer>
+              <Button type="submit" variant="outline">
+                Calcular &rarr;
+              </Button>
+            </form>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="hidden">
+                  Open
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Resultado</DialogTitle>
+                  <DialogDescription>
+                    Confira os valores calculados abaixo.
+                  </DialogDescription>
+                </DialogHeader>
+                <ResultDisplay
+                  totalHours={totalHours}
+                  totalValue={totalValue}
+                  toast={toast}
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="hourValue">Valor da hora</Label>
-          <Input
-            id="hourValue"
-            {...register('hourValue')}
-            placeholder="30,00"
-            type="number"
-            step="0.01"
-          />
-          {errors.hourValue && (
-            <p className="text-red-500 text-sm">{errors.hourValue.message}</p>
-          )}
-        </LabelInputContainer>
-
-        <Button type="submit" variant="outline">
-          Calcular &rarr;
-        </Button>
-      </form>
-
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline" className="hidden">
-            Open
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Resultado</DialogTitle>
-            <DialogDescription>
-              Confira os valores calculados abaixo.
-            </DialogDescription>
-          </DialogHeader>
-          <ResultDisplay
-            totalHours={totalHours}
-            totalValue={totalValue}
-            toast={toast}
-          />
-        </DialogContent>
-      </Dialog>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 
