@@ -10,7 +10,7 @@ import {
 
 import Link from 'next/link'
 
-import { HDRForm } from '@/components/system/hdv-form'
+import Formulario from './_components/formulario'
 
 export default function DinamicCalculatorPage() {
   return (
@@ -30,7 +30,7 @@ export default function DinamicCalculatorPage() {
           <BreadcrumbPage>Calculadora Dinâmica</BreadcrumbPage>
         </BreadcrumbList>
       </Breadcrumb>
-      <HDRForm />
+      <Formulario />
     </ContentLayout>
   )
 }
