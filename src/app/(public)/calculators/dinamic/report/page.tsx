@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { ContentLayout } from '@/components/admin-panel/content-layout'
 import {
   Breadcrumb,
@@ -150,4 +150,12 @@ const Relatorio: React.FC = () => {
   )
 }
 
-export default Relatorio
+const ReportPage = () => {
+  return (
+    <Suspense>
+      <Relatorio />
+    </Suspense>
+  )
+}
+
+export default ReportPage
